@@ -1,0 +1,225 @@
+Olá, quero que você atue como meu mentor técnico em um projeto prático de software voltado para microsserviços de alta performance, com foco em sistemas financeiros críticos, nos moldes dos sistemas utilizados no BTG Pactual, onde acabo de ser aprovado para atuar como Engenheiro de Software .NET Sênior alocado pela consultoria Act Digital.
+
+⚙️ Sobre mim
+Sou Desenvolvedor .NET Sênior (só agora irei começar a atuar como Engenheiro), com forte base em C#, .NET Core, arquitetura orientada a domínio, mensageria (RabbitMQ), e bancos relacionais (SQL Server/PostgreSQL).
+
+Já atuei com APIs, jobs de processamento, testes automatizados, Azure DevOps e boas práticas como SOLID, Clean Code, CQRS, MediatR e Clean Architecture.
+
+Tenho pouca experiência prática com Cloud (AWS) e práticas DevOps avançadas, mas estou em processo de aprendizado estruturado (BTG me deu uma chance, então preciso aproveitar e corresponder à isso ao máximo).
+
+Fui promovido recentemente a Sênior e desejo reforçar minha autonomia técnica, com foco especial em resiliência, escalabilidade, mensageria robusta, segurança e arquitetura de sistemas distribuídos.
+
+🧩 Contexto do novo desafio
+Fui contratado para atuar em um time que lida com:
+
+Sistemas críticos de custódia, margem de garantia, RF e derivativos
+
+Integrações com clearings como B3, Laqus e CSD
+
+Ambiente de alta disponibilidade, onde falhas impactam operações financeiras de grandes clientes
+
+Stack baseada em .NET, RabbitMQ/SQS/SNS, AWS, SQL, NOSQL, APIs REST, arquitetura assíncrona e pipelines CI/CD
+
+🎯 Objetivo com você como mentor
+Quero desenvolver um projeto prático completo de microsserviços financeiros de alta performance, simulando cenários reais da área de custódia e colateral. Esse projeto será meu laboratório técnico para aplicar:
+
+Arquitetura robusta e desacoplada
+
+Alta disponibilidade com mensageria
+
+Resiliência (retry, circuit breaker, idempotência, DLQ)
+
+Observabilidade (logs estruturados, tracing, health checks, monitoramento)
+
+Práticas DevOps com CI/CD e deploy na AWS (Elastic Beanstalk, RDS, S3, etc.)
+
+Segurança (autenticação via OAuth2, autorização, rate limiting, etc.)
+
+Testabilidade (unitários, integração, coverage, mocks com AutoFixture e FluentAssertions)
+
+🧱 Gaps que preciso desenvolver
+Proficiência em AWS (S3, SQS, SNS, RDS, Beanstalk ou EKS)
+
+Aprofundamento em DevOps
+
+Técnicas de observabilidade, versionamento e rastreabilidade
+
+Design e implementação de event-driven architecture com resiliência real
+
+Clareza conceitual em custódia, margens, derivativos, integração com B3 (essa parte é extremamente importante, pois eu preciso entender bem o contexto de 'negócio' para conseguir desempenhar as tarefas com clareza e potencializar um perfil SR)
+
+✅ Como você pode me ajudar daqui pra frente
+Ajudar a planejar e executar o projeto técnico de microsserviços, com foco prático e aplicação real.
+
+Me guiar passo a passo na decisão arquitetural de cada serviço, padrão, tecnologia ou integração.
+
+Sugerir e revisar boas práticas de mensageria, cloud, escalabilidade e resiliência.
+
+Orientar sobre testes avançados, versionamento, monitoração e deploy.
+
+Me preparar para possíveis desafios técnicos que eu enfrentarei no BTG nos primeiros meses.
+
+Por favor, comece me ajudando a estruturar o escopo do projeto prático: como simular um cenário de custódia, margem ou operação de colateral com eventos reais e alto volume transacional — e como organizar os microsserviços e as tecnologias base.
+
+RESPOSTAA...
+
+
+Parabéns pela conquista no BTG, Kaique! A chance de atuar como Engenheiro de Software .NET Sênior nesse contexto é desafiadora e ao mesmo tempo uma oportunidade incrível para evoluir rápido. Vamos montar juntos um projeto prático de altíssimo nível — algo que simule um sistema real de custódia e colateral com alto volume e foco em resiliência, arquitetura desacoplada e observabilidade.
+
+
+---
+
+📌 Etapa 1 – Escopo do Projeto Prático
+
+Vamos chamar esse projeto de “CustodyFlow” (nome provisório). Ele simulará o fluxo de eventos financeiros típicos de uma corretora ou banco custodiante, com foco em:
+
+🧩 Domínios envolvidos
+
+1. Custódia de Ativos
+
+Registro de ativos por cliente
+
+Controle de posição (quantidade, preço médio, tipo)
+
+Movimentações (compra, venda, transferência)
+
+
+
+2. Margem de Garantia
+
+Cálculo e manutenção de colateral exigido
+
+Monitoramento de exposição e chamadas de margem
+
+Liquidação automática em caso de inadimplência
+
+
+
+3. Eventos Integrados
+
+Recebimento de eventos da B3 (ex: liquidação, custódia, garantias)
+
+Emissão de eventos para sistemas internos (contabilidade, risco, precificação)
+
+
+
+
+
+---
+
+🧱 Etapa 2 – Arquitetura de Microsserviços
+
+🌐 Microsserviços principais:
+
+Serviço	Responsabilidade	Comunicação
+
+AssetService	Cadastro e manutenção de ativos e seus metadados	REST + Events
+CustodyService	Controle de custódia por cliente	Events
+CollateralService	Cálculo de margem, chamadas e controle de garantias	Events
+SettlementService	Consome eventos da B3 simulada e realiza liquidação	SQS/SNS
+ClientService	Cadastro e controle de clientes	REST
+NotificationService	Envia e-mails, logs e alertas (DLQ, falhas etc.)	SQS + Email
+MonitoringService	Health Checks, observabilidade, tracing	AWS CloudWatch
+
+
+🔄 Infraestrutura de apoio:
+
+RabbitMQ ou AWS SQS/SNS (mensageria)
+
+PostgreSQL (dados relacionais principais)
+
+MongoDB ou DynamoDB (eventos persistidos, snapshots, documentos de risco)
+
+Redis (caching e controle de idempotência)
+
+ElasticSearch ou CloudWatch Logs (logs estruturados, tracing)
+
+Elastic Beanstalk (deploy inicial)
+
+GitHub Actions (CI/CD)
+
+
+
+---
+
+🔧 Etapa 3 – Simulação de Cenário Real
+
+🎯 Cenário prático: "Chamada de Margem Automática"
+
+1. Cliente possui uma carteira de ativos custodiada (CustodyService)
+
+
+2. Recebe uma chamada de margem via evento da B3 (SettlementService)
+
+
+3. Sistema avalia se há ativos suficientes como colateral (CollateralService)
+
+
+4. Se insuficiente, realiza:
+
+Venda forçada de ativos (margin call)
+
+Geração de evento de liquidação parcial
+
+Notificação ao cliente
+
+
+
+
+Esse cenário exige:
+
+Transações seguras e idempotentes
+
+Consistência eventual entre serviços
+
+Alta resiliência a falhas (ex: retry + DLQ)
+
+Visibilidade total do pipeline (trace de eventos)
+
+
+
+---
+
+🧱 Etapa 4 – Tecnologias e Padrões
+
+.NET 8 com WebAPI + Worker Services
+
+MassTransit + RabbitMQ/SQS
+
+MediatR para orquestração interna
+
+Entity Framework Core + Dapper
+
+AutoFixture + FluentAssertions + Coverlet
+
+HealthChecks + Serilog + OpenTelemetry
+
+OAuth2 com IdentityServer ou Auth0 (mock no início)
+
+
+
+---
+
+📌 Próximos passos
+
+1. Modelar os domínios iniciais: Cliente, Ativo, Custódia, Garantia
+
+
+2. Desenhar os contratos de eventos: AssetRegistered, CollateralRequired, MarginCallTriggered, etc.
+
+
+3. Arquitetar a base de serviços com template Clean Architecture
+
+
+4. Definir o padrão de mensageria e rastreamento de eventos
+
+
+5. Configurar o ambiente de desenvolvimento na AWS (RDS + Beanstalk Dev)
+
+
+
+
+---
+
+Posso começar contigo pela modelagem do domínio de Custódia, incluindo entidades, repositórios, eventos e casos de uso. Deseja seguir por esse caminho ou prefere começarmos pela fundação da infraestrutura base (ex: repositório template, estrutura de pastas, configuração inicial de projetos)?
+
