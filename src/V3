@@ -1,0 +1,149 @@
+Kaique, ótima iniciativa. Dado o legado (campos numéricos que não comportam letras) e a incerteza fina sobre o escopo exato do CNPJ alfanumérico (mas mantendo 8+4+2 posições), a sua proposta está quase lá — dá pra deixar mais robusta e limpa.
+
+Recomendações de modelagem (SQL Server)
+1) Colunas sugeridas (com ajustes de nome/tipo)
+
+DocumentoTipo CHAR(2) — ✔️ bom nome. CHECK (DocumentoTipo IN ('PF','PJ')).
+
+Documento VARCHAR(14) — sugiro este nome em vez de DocumentoFiscal. Mantém tudo normalizado sem máscara (sem ponto/barra/hífen), UPPER sempre.
+
+Para CPF: exatamente 11 dígitos.
+
+Para CNPJ (tradicional ou alfanumérico): 14 chars, com posições 1-12 [0-9A-Z] e posições 13-14 [0-9].
+
+DocumentoRaiz AS (PERSISTED) — VARCHAR(9)
+
+CASE WHEN DocumentoTipo='PF' THEN LEFT(Documento,9) ELSE LEFT(Documento,8) END
+
+DocumentoFilial AS (PERSISTED) — VARCHAR(4)
+
+CASE WHEN DocumentoTipo='PF' THEN '0000' ELSE SUBSTRING(Documento,9,4) END
+
+DocumentoDV AS (PERSISTED) — CHAR(2)
+
+RIGHT(Documento,2)
+
+Por que esses nomes?
+
+Documento é mais direto e cobre CPF/CNPJ sem ambiguidade.
+
+DocumentoRaiz/Filial/DV conversam com o jargão de CNPJ e ainda acomodam CPF de forma previsível.
+
+2) Constraints de validação no banco
+
+PF: tamanho 11, apenas dígitos.
+
+PJ: tamanho 14, 12 primeiros com [0-9A-Z], 2 últimos dígitos.
+
+Armazene sempre UPPER (via INSTEAD OF INSERT/UPDATE trigger simples, ou force na aplicação).
+
+Exemplo de ALTER TABLE (ajuste o nome da sua tabela e PK):
+ALTER TABLE dbo.Cliente
+ADD
+    DocumentoTipo CHAR(2) NOT NULL
+        CONSTRAINT CK_Cliente_DocumentoTipo CHECK (DocumentoTipo IN ('PF','PJ')),
+    Documento VARCHAR(14) NOT NULL,
+    DocumentoRaiz AS (
+        CASE WHEN DocumentoTipo='PF' THEN LEFT(Documento,9)
+             WHEN DocumentoTipo='PJ' THEN LEFT(Documento,8)
+        END
+    ) PERSISTED,
+    DocumentoFilial AS (
+        CASE WHEN DocumentoTipo='PF' THEN '0000'
+             WHEN DocumentoTipo='PJ' THEN SUBSTRING(Documento,9,4)
+        END
+    ) PERSISTED,
+    DocumentoDV AS (RIGHT(Documento,2)) PERSISTED;
+
+ALTER TABLE dbo.Cliente WITH CHECK
+ADD CONSTRAINT CK_Cliente_Documento_Formato
+CHECK (
+    (DocumentoTipo='PF'
+        AND LEN(Documento)=11
+        AND Documento NOT LIKE '%[^0-9]%')
+ OR (DocumentoTipo='PJ'
+        AND LEN(Documento)=14
+        AND LEFT(Documento,12) NOT LIKE '%[^0-9A-Z]%'
+        AND RIGHT(Documento,2) NOT LIKE '%[^0-9]%')
+);
+Observação: esse CHECK não valida DV (CPF/CNPJ). Isso fica para a camada de domínio (funções/CLR/Stored Function) porque o algoritmo do CNPJ alfanumérico pode sofrer ajustes oficiais. Quando estabilizar, você pode:
+
+manter a regra somente na aplicação (mais flexível), ou
+
+criar uma função determinística (CREATE FUNCTION dbo.fn_ValidaDocumento(...)) e adicionar um CHECK (dbo.fn_ValidaDocumento(DocumentoTipo, Documento)=1).
+
+3) Índices
+
+Você citou a PK existente (IdEmpresa, Agencia, Conta).
+Se você pesquisa muito por documento, crie um índice filtrado e coberto:
+-- pesquisas por documento (independente de PF/PJ)
+CREATE NONCLUSTERED INDEX IX_Cliente_Documento
+ON dbo.Cliente (DocumentoTipo, Documento)
+INCLUDE (IdEmpresa, Agencia, Conta);
+
+-- se há consultas frequentes por raiz/filial (ex.: join com cadastro de matriz/filial)
+CREATE NONCLUSTERED INDEX IX_Cliente_DocRaizFilial
+ON dbo.Cliente (DocumentoTipo, DocumentoRaiz, DocumentoFilial);
+As colunas computadas PERSISTED permitem indexação e dão performance sem duplicar lógica.
+
+4) Estratégia de migração do legado
+
+Mantenha os três campos numéricos antigos (CnpjCpf, CnpjCpFilial, CnpjCpfDigitoControle) por enquanto, mas marque como deprecados.
+
+Backfill:
+
+PF: DocumentoTipo='PF', Documento = RIGHT(REPLICATE('0',11) + CAST(CnpjCpf AS VARCHAR(11)),11) + os 2 DVs (concatene corretamente para formar os 11).
+
+PJ: concatene CnpjCpf (8) + CnpjCpFilial (4) + CnpjCpfDigitoControle (2) com zero-pad.
+
+Para manter compatibilidade temporária, crie uma VIEW que projeta os três campos antigos a partir de Documento quando for PJ (e zeros quando PF). Isso ajuda quem ainda lê os campos antigos sem quebrar:
+CREATE VIEW dbo.vw_Cliente_Legado AS
+SELECT
+    ...,
+    CASE WHEN DocumentoTipo='PJ' THEN CAST(SUBSTRING(Documento,1,8) AS INT) END AS CnpjCpf,
+    CASE WHEN DocumentoTipo='PJ' THEN CAST(SUBSTRING(Documento,9,4) AS SMALLINT) END AS CnpjCpFilial,
+    CASE WHEN DocumentoTipo='PJ' THEN CAST(SUBSTRING(Documento,13,2) AS SMALLINT) END AS CnpjCpfDigitoControle
+FROM dbo.Cliente;
+Não tente popular os campos legados para CNPJ alfanumérico (não cabe). Use a view/novas colunas.
+
+5) Máscara para exibição (opcional)
+
+Guarde sem máscara. Se quiser uma coluna só de exibição:
+ALTER TABLE dbo.Cliente
+ADD DocumentoFormatado AS (
+    CASE
+      WHEN DocumentoTipo='PF'
+        THEN STUFF(STUFF(LEFT(Documento,9),4,0,'.'),8,0,'.') + '-' + RIGHT(Documento,2)
+      WHEN DocumentoTipo='PJ'
+        THEN STUFF(STUFF(STUFF(LEFT(Documento,12),3,0,'.'),7,0,'.'),11,0,'/') + '-' + RIGHT(Documento,2)
+    END
+) PERSISTED;
+Para CNPJ alfanumérico, a máscara visual continua “##.###.###/####-##”; os separadores são os mesmos — apenas não valide letras nesses separadores (a máscara é puramente estética).
+
+6) Segurança/LGPD
+
+Considere Dynamic Data Masking para não-privilégiados e/ou Always Encrypted se o documento virar chave de negócio sensível.
+
+Se precisar buscar por documento sob criptografia, avalie hash/salted hash em coluna auxiliar indexável.
+
+7) Sobre os seus nomes originais
+
+DocumentoFiscal → prefiro Documento (mais curto e comum).
+
+TipoDocumento → ótimo (ou DocumentoTipo, seguindo o prefixo).
+
+DocumentoRaiz/DocumentoFilial/DocumentoDv → ótimos e computed PERSISTED é a escolha certa.
+
+“Raiz” do CPF (9 primeiros) → é um termo emprestado, não oficial, mas prático. Serve bem para joins/regra de negócio — ok.
+
+TL;DR
+
+Use DocumentoTipo (PF/PJ) + Documento (VARCHAR(14), UPPER, sem máscara).
+
+Garanta CHECK simples de formato (PF 11 dígitos; PJ 14 com 12 alfanum + 2 dígitos).
+
+Crie computed PERSISTED para Raiz/Filial/DV (indexáveis).
+
+Migre sem quebrar o legado via VIEW e marque campos numéricos como deprecados.
+
+Deixe a validação de DV (algoritmo) na aplicação até a regra final ficar oficial; depois, se quiser, traga para uma função SQL determinística + CHECK.
