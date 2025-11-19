@@ -1,0 +1,100 @@
+⭐ 1. OBJETIVO (reescrito com peso executivo)
+
+O atual está muito técnico e descritivo. Segue uma versão mais forte:
+
+Objetivo
+
+Fortalecer os sistemas críticos de Tesouraria e Custódia, garantindo maior precisão operacional, estabilidade nos cálculos e evolução dos fluxos que suportam conciliação, boletos estruturados e operações internacionais.
+As entregas de 2025 tiveram foco em:
+
+Aprimorar governança e confiabilidade dos cálculos (motor de preço e parametrização).
+
+Evoluir o processo de Conciliação, reduzindo falhas e retrabalho.
+
+Modernizar e unificar o ecossistema de boletos (Opções, Internacional, Mercado Local).
+
+Aumentar robustez dos sistemas usados pelo DAC e pela Tesouraria.
+
+➡️ Você troca tarefas técnicas por objetivos estratégicos.
+
+⭐ 2. BENEFÍCIOS (mais impacto, orientado a resultado)
+
+O slide atual está “genérico”. Aqui está uma versão forte e profissional:
+
+Benefícios
+
+Maior precisão e segurança operacional nos processamentos críticos (TPPI, BOEL, BOFC).
+
+Redução de erros manuais e inconsistências, com melhorias no fluxo de Conciliação.
+
+Melhor previsibilidade e estabilidade em operações internacionais e de opções.
+
+Diminuição de custos operacionais e retrabalho, com unificação de processos e atualizações sistêmicas.
+
+Aumento da eficiência do time operacional, com telas mais consistentes e processos mais padronizados.
+
+➡️ De novo: foco em valor, não em tecnologia.
+
+⭐ 3. SOLUÇÃO TÉCNICA (reforçando maturidade, não limitação)
+
+Aqui está o ponto sensível: vocês usam WinForms e SQL.
+Então vamos deixar isso positivo e profissional, como “maturidade”, “estabilidade” e “robustez”.
+
+Solução Técnica
+
+Aplicações Windows Forms em C#, sustentando fluxos críticos com estabilidade e alta performance para grandes volumes.
+
+Banco de Dados SQL Server, com consultas otimizadas e evolução contínua de stored procedures e modelos de dados.
+
+Integrações corporativas via WebServices, com sistemas Bloomberg, INEC e arquivos de mercado (B3/TPPI/ADR).
+
+Padronização e melhoria de logs, validações e rastreabilidade, reforçando governança e auditoria.
+
+➡️ Isto comunica maturidade e confiabilidade — não “tecnologia velha”.
+
+⭐ 4. CRONOGRAMA MACRO (descrição que dá peso ao gráfico)
+
+O gráfico continua o mesmo, mas a legenda + texto pode ficar muito mais executiva.
+
+Cronograma Macro
+
+O planejamento de 2025 priorizou entregas de alta criticidade operacional, com foco em:
+
+Processamento internacional (TPPI) no 1º semestre;
+
+Evolução da Conciliação e fluxo de opções (BOEL) ao longo do ano;
+
+Adequações regulatórias e sistêmicas nos módulos BOFC/BOEL;
+
+Unificação de telas e layouts no segundo semestre.
+
+Todas as entregas seguiram o alinhamento estratégico da Tesouraria e DAC, garantindo cobertura total dos fluxos impactados.
+
+➡️ Este texto dá propósito para o cronograma — que hoje está “frio”.
+
+⭐ 5. EVOLUÇÃO DAS ENTREGAS (reescrita para entregar valor)
+
+Aqui é onde o slide mais melhora.
+Transformamos tarefas em impacto real.
+
+Evolução das Entregas
+
+TPPI – Mercado Internacional
+✔ Maior estabilidade na captura e processamento de arquivos internacionais. (Implantado)
+
+BOEL – Conciliação de Exercício de Opções
+✔ Regras aprimoradas e maior confiabilidade na conciliação. (Implantado)
+
+TPPI – Mercado Local
+✔ Fluxo padronizado com redução de falhas operacionais. (Implantado)
+
+BOFC / BOEL – Atualização de Arquivos
+✔ Adequação obrigatória para atender melhorias sistêmicas e regulatorias. (Implantado)
+
+TPPI – Títulos & ADR
+✔ Processamento mais eficiente e previsível de títulos internacionais. (Implantado)
+
+BOEL – Opção Unificado (Tela + XML)
+🔄 Evolução das interfaces e padronização do fluxo para reduzir retrabalho e aumentar estabilidade. (Em Desenvolvimento)
+
+➡️ Aqui transformamos “tarefas técnicas” em resultados de negócio.
