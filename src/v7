@@ -1,0 +1,13 @@
+Contexto:
+Estou analisando uma mudança de CNPJ tradicional para CNPJ alfanumérico em um sistema legado C# WinForms + SQL Server.
+
+No workspace existem:
+- código fonte atualizado com as mudanças de CNPJ Alfa
+- scripts SQL locais que ainda não foram executados (/_analise-cnpj-alfa/02-scripts-db)
+- documentação em PDF (/_analise-cnpj-alfa/01-documentacao)
+
+Quero que você atue como revisor técnico e me ajude a:
+1. comparar estado atual do banco versus scripts novos
+2. identificar impacto no código C#
+3. encontrar riscos de quebra
+4. validar se há incompatibilidades entre banco, procedures, views e aplicação
