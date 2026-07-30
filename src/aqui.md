@@ -36,3 +36,102 @@ Padrão recomendado daqui em diante (o que passa a orientar novos desenvolviment
 
 
 Não quero que novos documentos perpetuem uma convenção que aparenta ser apenas um padrão histórico do sistema legado. Ela deve ser documentada como contexto, mas não adotada automaticamente como boa prática futura.
+
+
+-----------------------------
+
+
+Revise criticamente toda a estrutura criada (copilot-instructions.md, *.instructions.md, prompts, docs/workitems/README.md e TEMPLATE.md), preservando a arquitetura atual e aplicando apenas melhorias que aumentem consistência, clareza e manutenibilidade.
+
+Objetivos desta revisão:
+
+1. Não alterar a filosofia do projeto
+- Manter a separação entre:
+  - fatos observados;
+  - hipóteses;
+  - padrão recomendado;
+  - regras herdadas;
+  - escopo não coberto.
+- Não transformar observações em afirmações absolutas.
+- Continuar privilegiando evidências verificáveis no código.
+
+2. Tornar o copilot-instructions.md mais navegável
+- Adicionar um índice no início do documento.
+- Destacar explicitamente um princípio geral, por exemplo:
+
+  "Em caso de divergência entre esta documentação e o código-fonte atual, o código prevalece. Esta documentação registra fatos observados durante o levantamento estrutural e pode ficar desatualizada conforme o sistema evolui."
+
+Sem alterar o restante da estrutura.
+
+3. Padronizar os níveis de confiança
+Onde houver referência a confiança baixa/média/alta, documentar claramente o significado.
+
+Exemplo:
+
+- baixa:
+  apenas nomenclatura, convenção ou indício observado.
+
+- média:
+  múltiplas referências cruzadas no código, porém sem confirmação completa do fluxo.
+
+- alta:
+  fluxo completo confirmado por chamadas, referências e evidências observadas.
+
+Utilizar exatamente a mesma definição em todos os prompts e templates.
+
+4. Criar um novo prompt especializado
+Adicionar um novo arquivo:
+
+.github/prompts/descobrir-regra-negocio.prompt.md
+
+Objetivo:
+
+Levantar evidências relacionadas a uma regra de negócio específica.
+
+Esse prompt deve:
+
+- localizar classes, formulários, métodos e stored procedures relacionados;
+- separar fatos observados de hipóteses;
+- identificar integrações externas;
+- listar dependências;
+- registrar claramente o que não foi possível confirmar;
+- nunca inferir comportamento apenas pelo nome.
+
+Ele deve complementar os prompts existentes:
+- mapear-fluxo;
+- mapear-impacto;
+- registrar-progresso.
+
+Não substituir nenhum deles.
+
+5. Pequenas melhorias editoriais
+Padronizar títulos, listas e terminologia entre todos os arquivos.
+
+Eliminar duplicações de texto quando possível.
+
+Melhorar a legibilidade sem alterar o significado.
+
+6. Não alterar estas decisões
+Preservar exatamente:
+
+- work items em docs/workitems;
+- convenção moderna de work items (INC/PROJ/TECH/TMP);
+- convenções legadas apenas como contexto histórico;
+- seção "Regras herdadas — origem não verificada";
+- regras referentes ao Azure, pipelines e esteiras exatamente como estão;
+- separação entre documentação estrutural e documentação de progresso;
+- filosofia baseada em fatos observados.
+
+7. Evitar overengineering
+Não criar novos agentes, skills ou instruções extras além do prompt "descobrir-regra-negocio".
+
+Não aumentar a complexidade da estrutura.
+
+A prioridade é tornar a documentação mais clara, consistente e sustentável, mantendo sua simplicidade.
+
+Ao final, apresente um resumo objetivo contendo:
+
+- alterações realizadas;
+- justificativa de cada alteração;
+- arquivos modificados;
+- impacto esperado para o uso com GitHub Copilot/Copilot Chat.
