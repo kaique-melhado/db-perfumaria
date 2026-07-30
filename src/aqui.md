@@ -63,6 +63,27 @@ Objetivos desta revisão:
 
 Sem alterar o restante da estrutura.
 
+2.1. Tornar explícita a fronteira de análise da pasta scripts/
+
+Adicionar um princípio permanente deixando claro que:
+
+"O levantamento estrutural realizado em 2026-07-30 contemplou exclusivamente o código C# e a estrutura do repositório. A pasta scripts/ ficou deliberadamente fora do escopo desse levantamento e somente deve ser analisada quando a tarefa envolver explicitamente objetos de banco de dados (stored procedures, functions, views, triggers, tabelas ou regras implementadas no banco)."
+
+Esse princípio deve ser refletido de forma consistente em:
+
+- copilot-instructions.md;
+- mapear-fluxo.prompt.md;
+- mapear-impacto.prompt.md;
+- descobrir-regra-negocio.prompt.md (novo);
+- demais arquivos em que exista referência ao escopo do levantamento.
+
+Também ajustar os prompts para que, quando uma investigação atingir a fronteira do banco de dados, a IA:
+
+- registre que o fluxo chegou ao limite do levantamento estrutural;
+- somente avance para scripts/ quando a tarefa solicitar explicitamente análise de banco de dados;
+- não trate scripts/ como fonte obrigatória de investigação;
+- diferencie claramente "fluxo observado no código C#" de "implementação existente em objetos do banco".
+
 3. Padronizar os níveis de confiança
 Onde houver referência a confiança baixa/média/alta, documentar claramente o significado.
 
