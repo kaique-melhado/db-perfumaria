@@ -272,3 +272,20 @@ Não altere configurações de build.
 Não preencha lacunas materiais com hipóteses. Caso falte uma evidência que altere o conteúdo, o escopo ou a validade de algum arquivo, interrompa a criação desse arquivo e informe o que precisa ser confirmado. Para detalhes menores, utilize uma marcação explícita como A confirmar, sem inventar informações.
 
 Ao final, liste os arquivos criados e resuma o conteúdo de cada um.
+
+
+
+----------------
+Antes de prosseguir para a proposta de governança, materialize o levantamento estrutural já realizado como um artefato de descoberta histórica, e não como documentação de governança ou documentação viva do sistema.
+Crie o arquivo:
+docs/discovery/levantamento-estrutural.md
+O documento deve conter:
+Cabeçalho identificando:
+Data do levantamento;
+Objetivo do documento;
+Limitações do levantamento;
+Aviso de que representa um snapshot histórico e que a estrutura do sistema pode evoluir posteriormente.
+Preserve integralmente todas as conclusões, evidências, níveis de confiança e lacunas já apresentadas nesta conversa, reorganizando o conteúdo apenas para melhorar a legibilidade. Não adicione novas conclusões, hipóteses ou análises.
+Inclua o grafo de dependências entre projetos em sintaxe Mermaid (graph TD), utilizando apenas relações confirmadas nesta análise. Não simplifique nem acrescente dependências não observadas.
+Não transforme este documento em documentação de arquitetura, documentação funcional ou documento de governança. Ele representa apenas o resultado factual deste primeiro levantamento estrutural.
+Antes de criar o arquivo, apresente o conteúdo completo para minha aprovação.
