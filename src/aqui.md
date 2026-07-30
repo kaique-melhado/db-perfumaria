@@ -1,0 +1,1 @@
+A pasta scripts/ contém um backup recente de objetos de banco (~6-7 mil arquivos), adicionada fora do escopo deste levantamento. Não leia, não enumere e não analise o conteúdo desta pasta nesta etapa. Apenas reconheça sua existência como fonte futura de evidência para mapeamento de regras de negócio em stored procedures, a ser explorada em uma frente separada.
