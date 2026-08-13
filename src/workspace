@@ -1,0 +1,36 @@
+VS Code Workspace
+│
+├── snet-mnl-consulta-cliente/              ← contexto corporativo atual
+│   └── docs/architecture/
+│       └── corporate-dotnet-context.md
+│
+├── boel-raw-boletron/                      ← legado / discovery original
+│   └── Boletron-net/docs/discovery/
+│       └── 2026-07-30-levantamento-estrutural-boletron.md
+│
+└── dotnet-architecture-work/               ← área neutra de trabalho
+    ├── inputs/
+    │   └── fintrack-reference-architecture.md
+    ├── prompts/
+    │   └── dotnet-engineering-baseline.prompt.md
+    └── outputs/
+
+
+
+
+
+Antes de qualquer análise ou alteração, leia INTEGRALMENTE:
+
+docs/agent-prompts/dotnet-engineering-baseline.prompt.md
+
+Esse arquivo contém as instruções completas e obrigatórias desta tarefa.
+
+Leia integralmente também todas as fontes de entrada nele definidas antes de tomar qualquer decisão.
+
+Regras adicionais:
+- não trate o próprio arquivo de prompt como evidência;
+- não altere os documentos de entrada;
+- preserve a classificação e o nível de confiança das evidências corporativas;
+- a única alteração permitida é o artefato de saída definido no prompt.
+
+Comece somente após carregar integralmente o prompt e todas as fontes obrigatórias.
