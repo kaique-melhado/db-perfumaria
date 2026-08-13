@@ -83,3 +83,44 @@ Ao final:
 2. valide que nenhuma seção solicitada ficou ausente ou truncada;
 3. NÃO regenere o arquivo inteiro;
 4. faça somente correções pontuais se encontrar inconsistências.
+
+
+
+
+Três pequenos ajustes que eu faria no documento antes de congelá-lo
+
+Eu faria somente estes, sem revisão geral.
+
+Primeiro, na matriz final, toda referência a:
+
+Duplicação ≤ 3%
+
+deveria aparecer como:
+
+Duplicated Lines ≤ 3% — New Code
+
+para refletir exatamente o gate observado.
+
+Segundo, eu evitaria alguns usos de:
+
+“Sim — integralmente”
+
+na coluna “Ainda precisa de decisão nossa”.
+
+Por exemplo, arquitetura interna realmente é nossa, mas não é totalmente unconstrained: ela precisa continuar obedecendo .sln na raiz, descoberta de testes, quality gates, packaging, hosting, tokenização etc.
+
+Eu usaria algo mais rigoroso:
+
+SIM — decisão de engenharia dentro dos constraints corporativos identificados.
+
+Essa frase é muito melhor para quase todos esses casos.
+
+Terceiro, no Resumo Executivo, eu substituiria:
+
+plataforma “madura e fechada”
+
+por algo como:
+
+plataforma operacionalmente madura e centralmente governada no escopo observado
+
+“Fechada” pode soar negativo e pode ser interpretado como tecnologicamente fechada, quando o que vimos é principalmente governança centralizada de pipeline/plataforma.
